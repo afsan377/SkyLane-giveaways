@@ -1,0 +1,17 @@
+{
+  "token": "MTQ4MTMxMzA0ODE4OTg2NjAzNw.Gw4j8N.TnHmwMELtzz1sXipRXdss8xGERj8u7B688k4mQ",
+  "clientId": "1481313048189866037",
+
+  "guildId": ["1478769719887527977", "1418430739149619340"],
+
+  "staffRole": "1418434416660713593",
+  "transcriptChannel": "1478771637074530539",
+  "categoryId": "1478769720529522881",
+
+  "logs": {
+    "giveaway": "1437309513848848414",
+    "moderation": "1437309673262022809",
+    "points": "1430361956367470652",
+    "messages": "1459179660859670659"
+  }
+}
