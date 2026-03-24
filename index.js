@@ -89,7 +89,6 @@ for (const item of items) {
     }
   }
 }
-}
 
 // ------------------- READY -------------------
 client.once("ready", async () => {
