@@ -2,39 +2,38 @@ const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 
 module.exports = {
  data: new SlashCommandBuilder()
-  .setName("ban")
-  .setDescription("Ban a user from the server")
+  .setName("untimeout")
+  .setDescription("Remove timeout from a member")
   .addUserOption(option =>
     option.setName("user")
-          .setDescription("User to ban")
+          .setDescription("Member to remove timeout")
           .setRequired(true))
   .addStringOption(option =>
     option.setName("reason")
-          .setDescription("Reason for ban")
+          .setDescription("Reason for removing timeout")
           .setRequired(false)),
 
  async execute(interaction, client) {
   const user = interaction.options.getUser("user");
   const reason = interaction.options.getString("reason") || "No reason provided";
-
   const member = interaction.guild.members.cache.get(user.id);
 
-  if (!interaction.member.permissions.has("BanMembers"))
-   return interaction.reply({ content: "❌ You don't have permission to ban", ephemeral: true });
+  if (!interaction.member.permissions.has("ModerateMembers"))
+   return interaction.reply({ content: "❌ You can't remove timeouts", ephemeral: true });
 
-  if (!interaction.guild.members.me.permissions.has("BanMembers"))
-   return interaction.reply({ content: "❌ I can't ban members", ephemeral: true });
+  if (!interaction.guild.members.me.permissions.has("ModerateMembers"))
+   return interaction.reply({ content: "❌ I can't remove timeouts", ephemeral: true });
 
   if (!member) return interaction.reply({ content: "❌ Member not found", ephemeral: true });
 
-  await member.ban({ reason });
+  await member.timeout(null, reason);
 
   const embed = new EmbedBuilder()
-   .setColor("Red")
-   .setTitle("🔨 Member Banned")
+   .setColor("Green")
+   .setTitle("⏱️ Timeout Removed")
    .addFields(
      { name: "User", value: `${user.tag} (${user.id})`, inline: true },
-     { name: "Banned by", value: `${interaction.user.tag}`, inline: true },
+     { name: "Moderator", value: `${interaction.user.tag}`, inline: true },
      { name: "Reason", value: reason, inline: false }
    )
    .setTimestamp();
