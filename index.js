@@ -15,7 +15,7 @@ const {
 
 const fs = require("fs");
 const config = require("./config.json");
-
+const token = process.env.TOKEN;
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -81,7 +81,7 @@ client.once("ready", async () => {
   console.log(`✅ Logged in as ${client.user.tag}`);
   loadGiveaways();
 
-  const rest = new REST({ version: "10" }).setToken(config.token);
+  const rest = new REST({ version: "10" }).setToken(token);
 
   const slashCommands = Array.from(client.commands.values())
     .filter(cmd => cmd.data?.toJSON)
@@ -375,4 +375,4 @@ require("./handlers/antinuke")(client);
 require("./handlers/backup")(client);
 
 // ------------------- LOGIN -------------------
-client.login(config.token);
+client.login(token);
