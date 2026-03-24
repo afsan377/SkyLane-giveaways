@@ -64,16 +64,31 @@ function saveGiveaways() {
 }
 
 // ------------------- LOAD COMMANDS -------------------
-const folders = fs.readdirSync("./commands");
-for (const folder of folders) {
-  const files = fs.readdirSync(`./commands/${folder}`).filter(f => f.endsWith(".js"));
+const items = fs.readdirSync("./commands");
 
-  for (const file of files) {
-    const command = require(`./commands/${folder}/${file}`);
+for (const item of items) {
+  const fullPath = `./commands/${item}`;
+
+  // ✅ If it's a folder
+  if (fs.lstatSync(fullPath).isDirectory()) {
+    const files = fs.readdirSync(fullPath).filter(f => f.endsWith(".js"));
+
+    for (const file of files) {
+      const command = require(`${fullPath}/${file}`);
+      if (command.data && command.execute) {
+        client.commands.set(command.data.name, command);
+      }
+    }
+  }
+
+  // ✅ If it's a file
+  else if (item.endsWith(".js")) {
+    const command = require(fullPath);
     if (command.data && command.execute) {
       client.commands.set(command.data.name, command);
     }
   }
+}
 }
 
 // ------------------- READY -------------------
